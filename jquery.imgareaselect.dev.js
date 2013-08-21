@@ -262,6 +262,14 @@ $.imgAreaSelect = function (img, options) {
          */
         if (!imgLoaded || !$img.width())
             return;
+
+        /*
+        * Get options.delimiter. This is a string with "#id"
+        * see demo.html
+        */
+        if (options.delimiter) {
+            delimiter = options.delimiter; //id
+        }        
         
         /*
          * Get image offset. The .offset() method returns float values, so they
@@ -342,14 +350,26 @@ $.imgAreaSelect = function (img, options) {
             .height(max(h - $border.outerHeight() + $border.innerHeight(), 0));
 
         /* Arrange the outer area elements */
-        $($outer[0]).css({ left: left, top: top,
-            width: selection.x1, height: imgHeight });
-        $($outer[1]).css({ left: left + selection.x1, top: top,
-            width: w, height: selection.y1 });
-        $($outer[2]).css({ left: left + selection.x2, top: top,
-            width: imgWidth - selection.x2, height: imgHeight });
-        $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
-            width: w, height: imgHeight - selection.y2 });
+        /* CHANGED: added if delimiter */
+        if (options.delimiter) {
+            $($outer[0]).css({ left: left, top: top,
+                width: selection.x1, height: $(delimiter).height() });
+            $($outer[1]).css({ left: left + selection.x1, top: top,
+                width: w, height: selection.y1 });
+            $($outer[2]).css({ left: left + selection.x2, top: top,
+                width: $(delimiter).width() - selection.x2, height: $(delimiter).height() });
+            $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
+                width: w, height: $(delimiter).height() - selection.y2 });            
+        } else {
+            $($outer[0]).css({ left: left, top: top,
+                width: selection.x1, height: imgHeight });
+            $($outer[1]).css({ left: left + selection.x1, top: top,
+                width: w, height: selection.y1 });
+            $($outer[2]).css({ left: left + selection.x2, top: top,
+                width: imgWidth - selection.x2, height: imgHeight });
+            $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
+                width: w, height: imgHeight - selection.y2 });            
+        }
         
         w -= $handles.outerWidth();
         h -= $handles.outerHeight();
@@ -663,8 +683,14 @@ $.imgAreaSelect = function (img, options) {
      * @return false
      */
     function movingMouseMove(event) {
-        x1 = max(left, min(startX + evX(event), left + imgWidth - selection.width));
-        y1 = max(top, min(startY + evY(event), top + imgHeight - selection.height));
+        /* CHANGED: added if delimiter */
+        if (options.delimiter) {
+            x1 = max(left, min(startX + evX(event), left + $(delimiter).width() - selection.width));
+            y1 = max(top, min(startY + evY(event), top + $(delimiter).height() - selection.height));
+        } else {
+            x1 = max(left, min(startX + evX(event), left + imgWidth - selection.width));
+            y1 = max(top, min(startY + evY(event), top + imgHeight - selection.height));            
+        }
 
         doMove(x1, y1);
 
