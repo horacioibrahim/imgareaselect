@@ -6,10 +6,15 @@ ImgAreaSelect is a jQuery plugin for selecting a rectangular area of an image. I
 Basic Usage:
 ```<script type="text/javascript" >
 $(document).ready(function() {
+     
      $('img#photo').imgAreaSelect({
+          
           handles: true;
+          
           onSelectEnd: alert("Selecionado!");
+          
      });
+     
 });
 </script>
       ```
