@@ -1,0 +1,33 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../distfiles/css/imgareaselect-default.css" />
+	<script src="../distfiles/scripts/jquery.min.js"></script>
+	<script src="../distfiles/scripts/jquery.imgareaselect.prod.js"></script>
+	
+
+	<script type="text/javascript">
+
+	$(document).ready(function() {
+		var ias = $('#photo').imgAreaSelect({
+			instance:true,
+			handles: true,
+			delimiter: "#container-img",
+			onSelectEnd: function() {
+				//alert($('#photo').innerWidth()	);
+				},
+		});	
+	});
+
+	</script>
+</head>
+<body>
+
+	<div id="container-img" style="width: 300; height: 300; overflow: hidden; border: 2px dotted red;">
+		<img id="photo" src="photo.png" />
+	</div>
+
+	
+
+</body>
+
+</html>
