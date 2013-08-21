@@ -181,24 +181,19 @@ $.imgAreaSelect = function (img, options) {
             $($outer[0]).css({ left: left, top: top,
                 width: selection.x1, height: $(delimiter).height() });
             $($outer[1]).css({ left: left + selection.x1, top: top,
-                width: w, height: selection.y1 });
-
-            if (imgWidth < $(delimiter).width()) {
-                $($outer[2]).css({ left: left + selection.x2, top: top,
-                width: imgWidth - selection.x2, height: $(delimiter).height() });
-            } else {
-                $($outer[2]).css({ left: left + selection.x2, top: top,
-                width: $(delimiter).width() - selection.x2, height: $(delimiter).height() });                
-            }
-
+                width: w, height: selection.y1 }); 
+            $($outer[2]).css({ left: left + selection.x2, top: top,
+                width: $(delimiter).width() - selection.x2, height: $(delimiter).height() }); 
+            $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
+            width: w, height: $(delimiter).height() - selection.y2 });            
             if (imgHeight < $(delimiter).height()) {
-                $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
-                width: w, height: $(delimiter).height() - selection.y2 }); 
-            } else {
-                $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
-                width: w, height: imgHeight - selection.y2 });                 
+                $($outer[0]).css({ height: imgHeight });
+                $($outer[2]).css({ height: imgHeight });                 
+                $($outer[3]).css({ height: imgHeight - selection.y2 });                
             }
-
+            if (imgWidth < $(delimiter).width()) {
+                $($outer[2]).css({ width: imgWidth - selection.x2 });
+            } 
         } else {
             $($outer[0]).css({ left: left, top: top,
                 width: selection.x1, height: imgHeight });
@@ -209,7 +204,6 @@ $.imgAreaSelect = function (img, options) {
             $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
                 width: w, height: imgHeight - selection.y2 });            
         }
-
 
         w -= $handles.outerWidth();
         h -= $handles.outerHeight();
