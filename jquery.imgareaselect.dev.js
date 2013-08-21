@@ -356,10 +356,23 @@ $.imgAreaSelect = function (img, options) {
                 width: selection.x1, height: $(delimiter).height() });
             $($outer[1]).css({ left: left + selection.x1, top: top,
                 width: w, height: selection.y1 });
-            $($outer[2]).css({ left: left + selection.x2, top: top,
-                width: $(delimiter).width() - selection.x2, height: $(delimiter).height() });
-            $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
-                width: w, height: $(delimiter).height() - selection.y2 });            
+
+            if (imgWidth < $(delimiter).width()) {
+                $($outer[2]).css({ left: left + selection.x2, top: top,
+                width: imgWidth - selection.x2, height: $(delimiter).height() });
+            } else {
+                $($outer[2]).css({ left: left + selection.x2, top: top,
+                width: $(delimiter).width() - selection.x2, height: $(delimiter).height() });                
+            }
+
+            if (imgHeight < $(delimiter).height()) {
+                $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
+                width: w, height: $(delimiter).height() - selection.y2 }); 
+            } else {
+                $($outer[3]).css({ left: left + selection.x1, top: top + selection.y2,
+                width: w, height: imgHeight - selection.y2 });                 
+            }
+
         } else {
             $($outer[0]).css({ left: left, top: top,
                 width: selection.x1, height: imgHeight });
@@ -687,6 +700,13 @@ $.imgAreaSelect = function (img, options) {
         if (options.delimiter) {
             x1 = max(left, min(startX + evX(event), left + $(delimiter).width() - selection.width));
             y1 = max(top, min(startY + evY(event), top + $(delimiter).height() - selection.height));
+                        
+            if (imgWidth < $(delimiter).width()) {
+                x1 = max(left, min(startX + evX(event), left + imgWidth - selection.width));
+            }
+            if (imgHeight < $(delimiter).height()) {
+                y1 = max(top, min(startY + evY(event), top + imgHeight - selection.height));
+            }                
         } else {
             x1 = max(left, min(startX + evX(event), left + imgWidth - selection.width));
             y1 = max(top, min(startY + evY(event), top + imgHeight - selection.height));            
